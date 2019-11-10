@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>VexFlow Sandbox</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+  <script
+    type="text/javascript"
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    
+  ></script>
+
+
+      <script type="text/javascript" src="https://npmcdn.com/vexflow/releases/vexflow-debug.js"></script>
+
+  <style id="compiled-css" type="text/css">
+      
+  </style>
+
+
+  <!-- TODO: Missing CoffeeScript 2 -->
+
+  <script type="text/jsx"
+    data-presets="es2017,react,stage-0"
+    data-plugins="transform-decorators-legacy">
+    VF = Vex.Flow;
+
+    // Create an SVG renderer and attach it to the DIV element named "boo".
+    var div = document.getElementById("boo")
+    var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
+    
+    // Configure the rendering context.
+    renderer.resize(1000, 400);
+    var context = renderer.getContext();
+    context.setFont("Arial", 10, "").setBackgroundFillStyle("#eed");
+
+    var stave = new VF.Stave(10, 40, 600);
+    // Add a clef and time signature.
+stave.addClef("treble");
+// Connect it to the rendering context and draw!
+stave.setContext(context).draw();
+
+var note_names = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
+
+var notes = [];
+for(var i=3;i<=6;i++){
+    note_names.forEach(function(note_name){
+
+        notes.push({keys: [note_name + '/' + i], duration: '4'});
+    })
+};
+
+  
+  var stave_notes = notes.map(function(note) { return new VF.StaveNote(note); });
+
+  stave_notes[2].setStyle({ fillStyle: 'tomato', strokeStyle: 'tomato' });
+  
+  
+  VF.Formatter.FormatAndDraw(context, stave, stave_notes, false);
+  
+
+</script>
+
+
+
+</head>
+<body>
+    <div id="boo"></div>
+</body>
+</html>

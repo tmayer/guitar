@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v4.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/vexflow/releases/vexflow-min.js" type="text/javascript"></script>
+    <script src="vexflow-json.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      
+    ></script>
+  
+  
+        <script type="text/javascript" src="https://npmcdn.com/vexflow/releases/vexflow-debug.js"></script>
+    <style>
+    .fretboard {
+        position: relative;
+    }
+    .tuning, .fretnum {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        font-family: Helvetica;
+        text-transform: uppercase;
+    }
+    .tuning {
+        left: 4px;
+        font-size: 10px;
+    }
+    .fretnum {
+        font-size: 15px;
+    }
+
+    .hidden {
+        display: None;
+    }
+    #boo {
+        position: absolute;
+        top: 200px;
+    }
+    </style>
+
+
+
+
+
+</head>
+<body>
+        <div id="boo"></div>
+
+</body>
+
+<script src="draw.js"></script>
+<script type="text/jsx"
+    data-presets="es2017,react,stage-0"
+    data-plugins="transform-decorators-legacy">
+
+
+renderNotes([]);
+  
+var aPhrygian = Fretboard({tuning: Tunings.E_std, frets: 24});
+aPhrygian.scale("c major");
+
+</script>
+  
+</html>
