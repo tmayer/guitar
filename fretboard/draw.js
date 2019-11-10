@@ -77,7 +77,7 @@ function asNotes(scale) {
     return scaleTransposed.join(" ");
 }
 
-function renderNotes(note_s){
+function renderNotes(note_s, width){
 
     VF = Vex.Flow;
 
@@ -87,11 +87,13 @@ function renderNotes(note_s){
     var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
     
     // Configure the rendering context.
-    renderer.resize(1000, 700);
+    renderer.resize(1600, 700);
     var context = renderer.getContext();
+    
+    context.setViewBox(width/1.5, 40, width, width); //size
     context.setFont("Arial", 10, "").setBackgroundFillStyle("#eed");
 
-    var stave = new VF.Stave(10, 60, 700);
+    var stave = new VF.Stave(40, 100, 1000);
     // Add a clef and time signature.
     stave.addClef("treble");
     // Connect it to the rendering context and draw!
@@ -173,6 +175,14 @@ function renderNotes(note_s){
 
 var verbatim = function(d) { return d; };
 
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 // Fretboard
 var Tunings = {
@@ -191,8 +201,8 @@ var Fretboard = function(config) {
         frets: config.frets || 12,
         strings: config.strings || 6,
         tuning: config.tuning || Tunings.E_4ths,
-        fretWidth: 50,
-        fretHeight: 20
+        fretWidth: config.fretWidth || 60,
+        fretHeight: config.fretHeight || 24
     };
 
     instance.fretsWithDots = function () {
@@ -217,14 +227,16 @@ var Fretboard = function(config) {
     instance.YMARGIN = function() { return instance.fretHeight; };
 
     instance.makeContainer = function() {
+        d3.select("#fretboard").selectAll("*").remove();
         return d3
-            .select("body")
-            .append("div")
-            .attr("class", "fretboard")
-            .attr("id", id)
+            .select("#fretboard")
+            //.select("body")
+            //.append("div")
+            //.attr("class", "fretboard")
+            //.attr("id", id)
             .append("svg")
             .attr("width", instance.fretboardWidth() + instance.XMARGIN() * 2)
-            .attr("height", instance.fretboardHeight() + instance.YMARGIN() * 2);
+            .attr("height", instance.fretboardHeight() + instance.YMARGIN() * 2 + 30);
     };
 
     instance.svgContainer = instance.makeContainer();
@@ -240,11 +252,11 @@ var Fretboard = function(config) {
                 .attr("y2", instance.YMARGIN() + instance.fretboardHeight())
                 .attr("stroke", "lightgray")
                 .attr("stroke-width", i==0? 8:2);
-            d3.select("#" + id)
+            d3.select("#fretboard")
                 .append("p")
                 .attr("class", "fretnum")
                 .style("top", (instance.fretboardHeight() + instance.YMARGIN() + 18) + "px")
-                .style("left", x - 26 + "px")
+                .style("left", x - 10 + "px")
                 .text(i)
                 ;
         }
@@ -289,7 +301,7 @@ var Fretboard = function(config) {
             .append("circle")
             .attr("cx", function(d) { return (d - 1) * instance.fretWidth + instance.fretWidth/2 + instance.XMARGIN(); })
             .attr("cy", instance.fretboardHeight()/2 + instance.YMARGIN())
-            .attr("r", 4).style("fill", "#ddd");
+            .attr("r", instance.fretWidth/9).style("fill", "#ddd");
 
         var p = instance.svgContainer
             .selectAll(".octave")
@@ -300,13 +312,13 @@ var Fretboard = function(config) {
             .attr("class", "octave")
             .attr("cx", function(d) { return (d - 1) * instance.fretWidth + instance.fretWidth/2 + instance.XMARGIN(); })
             .attr("cy", instance.fretHeight * 3/2 + instance.YMARGIN())
-            .attr("r", 4).style("fill", "#ddd");
+            .attr("r", instance.fretWidth/9).style("fill", "#ddd");
         p.enter()
             .append("circle")
             .attr("class", "octave")
             .attr("cx", function(d) { return (d - 1) * instance.fretWidth + instance.fretWidth/2 + instance.XMARGIN(); })
             .attr("cy", instance.fretHeight * 7/2 + instance.YMARGIN())
-            .attr("r", 4).style("fill", "#ddd");
+            .attr("r", instance.fretWidth/9).style("fill", "#ddd");
     };
 
 
@@ -341,7 +353,7 @@ var Fretboard = function(config) {
                 // 0.75 is the offset into the fret (higher is closest to fret)
                 .attr("cx", (absPitch - basePitch + 0.75) * instance.fretWidth)
                 .attr("cy", (string - 1) * instance.fretHeight + 1 + instance.YMARGIN())
-                .attr("r", 9).style("stroke", color).style("fill", color)
+                .attr("r", instance.fretWidth/6).style("stroke", color).style("fill", color)
                 .style("cursor", "pointer")
                 .on("mouseover", function(d) {
                     d3.selectAll(".note").classed('hidden', true);
@@ -354,8 +366,10 @@ var Fretboard = function(config) {
                           d3.select(this).text(pos);
                       })
                       ;
-
-                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]]);
+                      var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                      width = width > 1600 ? 1600 : width;
+                      var notesWidth = 800000/width;
+                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]], notesWidth);
                 })
                 .on("mouseout", function(d) {
                     d3.selectAll(".note")
@@ -364,7 +378,10 @@ var Fretboard = function(config) {
                         let note = this.classList[1];
                         d3.select(this).text(note.toUpperCase());
                       });
-                    renderNotes([]);
+                      var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                      width = width > 1600 ? 1600 : width;
+                      var notesWidth = 800000/width;
+                    renderNotes([], notesWidth);
                 })
                 .append("title").text(note[0].toUpperCase() + superscript[note[1]])
                 ;
@@ -377,7 +394,7 @@ var Fretboard = function(config) {
                 .attr("y", (string - 1) * instance.fretHeight + 1 + instance.YMARGIN())
                 .attr("dy", 5)
                 .attr("dx", -5)
-                .attr("font-size", "15px")
+                .attr("font-size", function(){ return instance.fretWidth/4.5 + "px";})
                 //.attr("r", 8).style("stroke", color).style("fill", color)
                 .text(note[0].toUpperCase()) // + superscript[note[1]])
                 .style("fill", "white")
@@ -395,8 +412,10 @@ var Fretboard = function(config) {
                           d3.select(this).text(pos);
                       })
                       ;
-                    
-                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]]);
+                      var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                      width = width > 1600 ? 1600 : width;
+                      var notesWidth = 800000/width;
+                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]], notesWidth);
                 })
                 .on("mouseout", function(d) {
                     d3.selectAll(".note")
@@ -405,7 +424,10 @@ var Fretboard = function(config) {
                         let note = this.classList[1];
                         d3.select(this).text(note.toUpperCase());
                       });
-                      renderNotes([]);
+                      var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                      width = width > 1600 ? 1600 : width;
+                      var notesWidth = 800000/width;
+                      renderNotes([], notesWidth);
                 })
                 .append("title").text(note[0].toUpperCase() + superscript[note[1]])
                 ;
