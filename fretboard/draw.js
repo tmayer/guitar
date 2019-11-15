@@ -87,13 +87,14 @@ function renderNotes(note_s, width){
     var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
     
     // Configure the rendering context.
-    renderer.resize(1600, 700);
+    renderer.resize(800, 200);
     var context = renderer.getContext();
     
-    context.setViewBox(width/1.5, 40, width, width); //size
+    //context.setViewBox(-50 + width/40, 40, 1000 + width*0.8, width*2); //size
+    //context.setViewBox(0, 0, 200, 100);
     context.setFont("Arial", 10, "").setBackgroundFillStyle("#eed");
 
-    var stave = new VF.Stave(40, 100, 1000);
+    var stave = new VF.Stave(50, 80, 700);
     // Add a clef and time signature.
     stave.addClef("treble");
     // Connect it to the rendering context and draw!
