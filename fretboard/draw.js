@@ -77,26 +77,27 @@ function asNotes(scale) {
     return scaleTransposed.join(" ");
 }
 
-function renderNotes(note_s, width){
+function renderNotes(note_s, width, frets){
 
     VF = Vex.Flow;
+    width = width > 1530 ? 1530 : width;
 
     // Create an SVG renderer and attach it to the DIV element named "boo".
     d3.select("#boo").selectAll("*").remove();
-    var div = document.getElementById("boo")
+    var div = document.getElementById("boo");
     var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
     
     // Configure the rendering context.
-    renderer.resize(800, 200);
+    renderer.resize(width-20, 200);
     var context = renderer.getContext();
     
     //context.setViewBox(-50 + width/40, 40, 1000 + width*0.8, width*2); //size
     //context.setViewBox(0, 0, 200, 100);
-    context.setFont("Arial", 10, "").setBackgroundFillStyle("#eed");
+    //context.setFont("Arial", 0, "").setBackgroundFillStyle("#eed");
 
-    var stave = new VF.Stave(50, 80, 700);
+    var stave = new VF.Stave(55, 60, width-85);
     // Add a clef and time signature.
-    stave.addClef("treble");
+    //stave.addClef("treble");
     // Connect it to the rendering context and draw!
     stave.setContext(context).draw();
 
@@ -123,8 +124,36 @@ function renderNotes(note_s, width){
     var notes_all = note_names.map(function(e, i){
         return [e, note_pos[i]];
     });
+    var notes_to_be_removed_mapping = {
+        5: 11,
+        6: 11,
+        7: 10,
+        8: 9, 
+        9: 9,
+        10: 8,
+        11: 8,
+        12: 7,
+        13: 6,
+        14: 6,
+        15: 5,
+        16: 5,
+        17: 4,
+        18: 4,
+        19: 3,
+        20: 2,
+        21: 2,
+        22: 1,
+        23: 1,
+        24: 0
+    }
+    var notes_to_be_removed = notes_to_be_removed_mapping[frets];
+    notes_all.splice(-notes_to_be_removed, notes_to_be_removed);
+
+    $("#text").html(notes_to_be_removed + "###" + notes_all);
 
     var notes = [];
+
+    function newAnnotation(text) { return new Vex.Flow.Annotation(text); }
 
     notes_all.forEach(function(note, i){
         let n = {keys: [note[0] + '/' + note[1]], duration: '4'};
@@ -138,6 +167,7 @@ function renderNotes(note_s, width){
             sn.setStyle({fillStyle: noteColors[note[0]], strokeStyle: noteColors[note[0]]});
             let pos_note = parseInt(note[1])-1;
             sn.setAttribute('id', 'stave ' + note[0] + ' ' + pos_note);
+            //sn.addModifier(newAnnotation("(8va)"));
 
             notes.push(sn);
     });
@@ -160,6 +190,8 @@ function renderNotes(note_s, width){
                 d3.select(this).text(pos);
             })
             ;
+            d3.selectAll(".vf-stavenote").style("opacity", 0.2);
+            d3.select(this).style("opacity", 1);
             
         });
        
@@ -170,6 +202,7 @@ function renderNotes(note_s, width){
               let note = this.classList[1];
               d3.select(this).text(note.toUpperCase());
             });
+            d3.selectAll(".vf-stavenote").style("opacity", 1);
         });
     }
 }
@@ -362,15 +395,15 @@ var Fretboard = function(config) {
                     //console.log(note);
                     d3.selectAll("." + note)
                       .classed('hidden', false)
+                      //.style('opacity', 0.2)
                       .each(function(d, i){
                           let pos = this.classList[2];
                           d3.select(this).text(pos);
                       })
                       ;
-                      var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                      var width = window.visualViewport.width;
                       width = width > 1600 ? 1600 : width;
-                      var notesWidth = 800000/width;
-                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]], notesWidth);
+                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]], width, instance.frets);
                 })
                 .on("mouseout", function(d) {
                     d3.selectAll(".note")
@@ -379,10 +412,9 @@ var Fretboard = function(config) {
                         let note = this.classList[1];
                         d3.select(this).text(note.toUpperCase());
                       });
-                      var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                      var width = window.visualViewport.width;
                       width = width > 1600 ? 1600 : width;
-                      var notesWidth = 800000/width;
-                    renderNotes([], notesWidth);
+                    renderNotes([], width, instance.frets);
                 })
                 .append("title").text(note[0].toUpperCase() + superscript[note[1]])
                 ;
@@ -413,10 +445,9 @@ var Fretboard = function(config) {
                           d3.select(this).text(pos);
                       })
                       ;
-                      var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                      var width = window.visualViewport.width;
                       width = width > 1600 ? 1600 : width;
-                      var notesWidth = 800000/width;
-                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]], notesWidth);
+                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]], width, instance.frets);
                 })
                 .on("mouseout", function(d) {
                     d3.selectAll(".note")
@@ -425,10 +456,9 @@ var Fretboard = function(config) {
                         let note = this.classList[1];
                         d3.select(this).text(note.toUpperCase());
                       });
-                      var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                      var width = window.visualViewport.width;
                       width = width > 1600 ? 1600 : width;
-                      var notesWidth = 800000/width;
-                      renderNotes([], notesWidth);
+                      renderNotes([], width, instance.frets);
                 })
                 .append("title").text(note[0].toUpperCase() + superscript[note[1]])
                 ;
