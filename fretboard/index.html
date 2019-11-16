@@ -101,7 +101,8 @@ plotFretNotes = function(width){
 
 myFunction = function(){
     window.setTimeout(function(){
-        var width = window.visualViewport.width;
+        //var width = window.visualViewport.width;
+        var width = window.innerWidth;
 
         plotFretNotes(width-20);
     }, 400);

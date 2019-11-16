@@ -421,7 +421,7 @@ var Fretboard = function(config) {
                           d3.select(this).text(pos);
                       })
                       ;
-                      var width = window.visualViewport.width;
+                      var width = window.innerWidth;
                       width = width > 1600 ? 1600 : width;
                     renderNotes([[this.classList[1], parseInt(this.classList[2])+1]], width, instance.frets);
                 })
@@ -432,7 +432,7 @@ var Fretboard = function(config) {
                         let note = this.classList[1];
                         d3.select(this).text(note.toUpperCase());
                       });
-                      var width = window.visualViewport.width;
+                      var width = window.innerWidth;
                       width = width > 1600 ? 1600 : width;
                       renderNotes([], width, instance.frets);
                 })
