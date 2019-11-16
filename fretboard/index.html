@@ -49,7 +49,8 @@
         <div>
             <h2>Guitar Fretboard Navigation</h2>
             <h4>An interactive visualization</h4>
-            <p>If you hover over the notes on the stave or fretboard, you see the corresponding notes.</p>
+            <p>Hover over the notes on the stave or fretboard. Check out the vertical <span id="bead">BEAD</span> 
+                and <span id="gcf">GCF</span> patterns!</p>
         </div>
     </div>
     <div>
@@ -75,6 +76,7 @@
     data-plugins="transform-decorators-legacy">
 
 
+
 plotFretNotes = function(width){
 
 
@@ -86,7 +88,6 @@ plotFretNotes = function(width){
     $("#text").html(width);
     var frets = Math.ceil(width/fretWidth) > 26 ? 24 : Math.ceil(width/fretWidth) - 2;
     var fretHeight = fretWidth/2.6;
-    console.log(width, frets, fretWidth, fretHeight);
     
     var aPhrygian = Fretboard({tuning: Tunings.E_std, 
                             frets: frets,
@@ -111,6 +112,9 @@ myFunction = function(){
 myFunction();
 window.addEventListener("resize", myFunction);
 window.addEventListener("deviceorientation", myFunction);
+
+
+
 
 </script>
 </body>

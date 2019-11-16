@@ -404,7 +404,12 @@ var Fretboard = function(config) {
                                                  .attr("class", "notegroup");
 
                 group.append("circle")
-                .attr("class", "note " + note.charAt(0) + " " + note.charAt(1) + " " + note.charAt(0) + note.charAt(1))
+                .attr("class",  function(){
+                    var pattern = 'bead';
+                    if(note[0] == 'g' || note[0] == 'c' || note[0] == 'f'){ pattern = 'gcf'; }
+                    return "note " + note.charAt(0) + " " + note[1] + " " + 
+                           note.charAt(0) + note.charAt(1) + " " + pattern;
+                })
                 .attr("stroke-width", 1)
                 // 0.75 is the offset into the fret (higher is closest to fret)
                 .attr("cx", (absPitch - basePitch + 0.75) * instance.fretWidth)
@@ -440,7 +445,12 @@ var Fretboard = function(config) {
                 ;
 
                 group.append("text")
-                .attr("class", "note " + note.charAt(0) + " " + note[1] + " " + note.charAt(0) + note.charAt(1))
+                .attr("class", function(){
+                    var pattern = 'bead';
+                    if(note[0] == 'g' || note[0] == 'c' || note[0] == 'f'){ pattern = 'gcf'; }
+                    return "note " + note.charAt(0) + " " + note[1] + " " + 
+                           note.charAt(0) + note.charAt(1) + " " + pattern;
+                })
                 .attr("stroke-width", 1)
                 // 0.75 is the offset into the fret (higher is closest to fret)
                 .attr("x", (absPitch - basePitch + 0.75) * instance.fretWidth)
@@ -522,6 +532,26 @@ var Fretboard = function(config) {
 
     //instance.draw();
 
+
     return instance;
 };
 
+d3.select("#bead")
+.on("mouseover", function(){
+      d3.selectAll(".note").classed('hidden', true);
+      d3.selectAll(".bead").classed('hidden', false);
+})
+.on("mouseout", function(){
+      d3.selectAll(".note").classed('hidden', false);
+})
+.style('cursor', 'pointer');
+
+d3.select("#gcf")
+.on("mouseover", function(){
+      d3.selectAll(".note").classed('hidden', true);
+      d3.selectAll(".gcf").classed('hidden', false);
+})
+.on("mouseout", function(){
+      d3.selectAll(".note").classed('hidden', false);
+})
+.style('cursor', 'pointer');
