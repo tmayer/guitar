@@ -179,7 +179,7 @@ function renderNotes(note_s, width, frets){
     for (var i = 0; i < notesevent.length; i++) {
 
         let info = notesevent[i].id.split(" ");
-        notesevent[i].addEventListener("mouseenter", function() {
+        notesevent[i].addEventListener("mouseover", function() {
 
             d3.selectAll(".note").classed('hidden', true);
             d3.selectAll("." + info[1] + "" + info[2])
@@ -195,7 +195,7 @@ function renderNotes(note_s, width, frets){
             
         });
        
-        notesevent[i].addEventListener("mouseleave", function(){
+        notesevent[i].addEventListener("mouseout", function(){
             d3.selectAll(".note")
             .classed('hidden', false)
             .each(function(d, i){
