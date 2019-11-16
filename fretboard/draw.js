@@ -392,8 +392,6 @@ var Fretboard = function(config) {
 
         color = noteColors[note[0]];
 
-        var superscript = "⁰¹²³⁴⁵⁶⁷⁸⁹";
-
         var absPitch = absNote(note);
         color = color || "black";
         var absString = (instance.strings - string);
@@ -402,7 +400,8 @@ var Fretboard = function(config) {
 
            
 
-                var group = instance.svgContainer.append('g');
+                var group = instance.svgContainer.append('g')
+                                                 .attr("class", "notegroup");
 
                 group.append("circle")
                 .attr("class", "note " + note.charAt(0) + " " + note.charAt(1) + " " + note.charAt(0) + note.charAt(1))
@@ -411,52 +410,6 @@ var Fretboard = function(config) {
                 .attr("cx", (absPitch - basePitch + 0.75) * instance.fretWidth)
                 .attr("cy", (string - 1) * instance.fretHeight + 1 + instance.YMARGIN())
                 .attr("r", instance.fretWidth/6).style("stroke", color).style("fill", color)
-                .style("cursor", "pointer")
-                .on("mouseover", function(d) {
-                    d3.selectAll(".note").classed('hidden', true);
-                    let note = this.classList[1];
-                    //console.log(note);
-                    d3.selectAll("." + note)
-                      .classed('hidden', false)
-                      //.style('opacity', 0.2)
-                      .each(function(d, i){
-                          let pos = this.classList[2];
-                          d3.select(this).text(pos);
-                      })
-                      ;
-                      var width = window.visualViewport.width;
-                      width = width > 1600 ? 1600 : width;
-                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]], width, instance.frets);
-                })
-                .on("mouseout", function(d) {
-                    d3.selectAll(".note")
-                      .classed('hidden', false)
-                      .each(function(d, i){
-                        let note = this.classList[1];
-                        d3.select(this).text(note.toUpperCase());
-                      });
-                      var width = window.visualViewport.width;
-                      width = width > 1600 ? 1600 : width;
-                    renderNotes([], width, instance.frets);
-                })
-                .append("title").text(note[0].toUpperCase() + superscript[note[1]])
-                ;
-
-                group.append("text")
-                .attr("class", "note " + note.charAt(0) + " " + note[1] + " " + note.charAt(0) + note.charAt(1))
-                .attr("stroke-width", 1)
-                // 0.75 is the offset into the fret (higher is closest to fret)
-                .attr("x", (absPitch - basePitch + 0.75) * instance.fretWidth)
-                .attr("y", (string - 1) * instance.fretHeight + 1 + instance.YMARGIN())
-                .attr("dy", 5)
-                .attr("dx", -5)
-                .attr("font-size", function(){ return instance.fretWidth/4.5 + "px";})
-                //.attr("r", 8).style("stroke", color).style("fill", color)
-                .text(note[0].toUpperCase()) // + superscript[note[1]])
-                .style("fill", "white")
-                .style("font-family", "Arial")
-                //.style("font-weight", "bold")
-                .style("cursor", "pointer")
                 .on("mouseover", function(d) {
                     d3.selectAll(".note").classed('hidden', true);
                     let note = this.classList[1];
@@ -483,8 +436,25 @@ var Fretboard = function(config) {
                       width = width > 1600 ? 1600 : width;
                       renderNotes([], width, instance.frets);
                 })
-                .append("title").text(note[0].toUpperCase() + superscript[note[1]])
+                .attr("cursor", "pointer")
                 ;
+
+                group.append("text")
+                .attr("class", "note " + note.charAt(0) + " " + note[1] + " " + note.charAt(0) + note.charAt(1))
+                .attr("stroke-width", 1)
+                // 0.75 is the offset into the fret (higher is closest to fret)
+                .attr("x", (absPitch - basePitch + 0.75) * instance.fretWidth)
+                .attr("y", (string - 1) * instance.fretHeight + 1 + instance.YMARGIN())
+                .attr("dy", 5)
+                .attr("dx", -5)
+                .attr("font-size", function(){ return instance.fretWidth/4.5 + "px";})
+                //.attr("r", 8).style("stroke", color).style("fill", color)
+                .text(note[0].toUpperCase()) // + superscript[note[1]])
+                .style("fill", "white")
+                .style("font-family", "Arial")
+                .attr('pointer-events', 'none')
+                ;
+
             
         }
     };
