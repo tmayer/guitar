@@ -229,7 +229,8 @@ var Tunings = {
 
 var Fretboard = function(config) {
     config = config || {};
-    var id = "fretboard-" + Math.floor(Math.random() * 1000000);
+    //var id = "fretboards-" + Math.floor(Math.random() * 1000000);
+    var id = "fretboard";
 
     var instance = {
         frets: config.frets || 12,
@@ -276,8 +277,12 @@ var Fretboard = function(config) {
     instance.svgContainer = instance.makeContainer();
 
     instance.drawFrets = function() {
-        for(i=0; i<=instance.frets; i++) {
-            let x = i * instance.fretWidth + 1 + instance.XMARGIN();
+        d3.select("#fretboard")
+                .append("div")
+                .attr("id", "fretnumbers");
+
+        for(j=0; j<=instance.frets; j++) {
+            let x = j * instance.fretWidth + 1 + instance.XMARGIN();
             instance.svgContainer
                 .append("line")
                 .attr("x1", x)
@@ -285,14 +290,30 @@ var Fretboard = function(config) {
                 .attr("x2", x)
                 .attr("y2", instance.YMARGIN() + instance.fretboardHeight())
                 .attr("stroke", "lightgray")
-                .attr("stroke-width", i==0? 8:2);
-            d3.select("#fretboard")
+                .attr("stroke-width", j==0? 8:2);
+
+            instance.svgContainer
+                .append("text")
+                .attr("x", function(d) {
+                    let offset = j < 10 ? 33 : 35;
+                    if(j == 0){ offset = 20;}
+                    return x-offset; 
+                })
+                .attr("y", function(d) { return 170; })
+                .text(j);
+
+            /*
+            d3.select("#fretnumbers")
                 .append("p")
-                .attr("class", "fretnum")
-                .style("top", (instance.fretboardHeight() + instance.YMARGIN() + 18) + "px")
-                .style("left", x - 10 + "px")
-                .text(i)
-                ;
+                .attr("class", "fretnumbers")
+                //.style("top", (instance.fretboardHeight() + instance.YMARGIN() + 18) + "px")
+                .style("left", function(){
+                    let offset = 20; //j < 10 ? 15 : 30;
+                    //if(j == 0){ offset = 0.35; }
+                    //return 20 + "px"; // + j*50 - offset + "px"; //x - (j) + "px";
+                })
+                .text(function(){ return j == 0 ? "" : j; })
+                ;*/
         }
     }
 
@@ -309,6 +330,7 @@ var Fretboard = function(config) {
                 .attr("stroke-width", 1)
                 ;
         }
+        /*
         var placeTuning = function(d, i) {
             return (instance.strings - i) * instance.fretHeight - 5 + "px";
         };
@@ -323,6 +345,7 @@ var Fretboard = function(config) {
             .style("top", placeTuning)
             .text(verbatim)
             ;
+        */
     };
 
 
@@ -345,13 +368,13 @@ var Fretboard = function(config) {
             .append("circle")
             .attr("class", "octave")
             .attr("cx", function(d) { return (d - 1) * instance.fretWidth + instance.fretWidth/2 + instance.XMARGIN(); })
-            .attr("cy", instance.fretHeight * 3/2 + instance.YMARGIN())
+            .attr("cy", instance.fretHeight * 1.57 + instance.YMARGIN())
             .attr("r", instance.fretWidth/9).style("fill", "#ddd");
         p.enter()
             .append("circle")
             .attr("class", "octave")
             .attr("cx", function(d) { return (d - 1) * instance.fretWidth + instance.fretWidth/2 + instance.XMARGIN(); })
-            .attr("cy", instance.fretHeight * 7/2 + instance.YMARGIN())
+            .attr("cy", instance.fretHeight * 3.5 + instance.YMARGIN())
             .attr("r", instance.fretWidth/9).style("fill", "#ddd");
     };
 
@@ -527,7 +550,7 @@ var Fretboard = function(config) {
         d3.select("#" + id).remove();
     };
 
-    instance.draw();
+    //instance.draw();
 
     return instance;
 };

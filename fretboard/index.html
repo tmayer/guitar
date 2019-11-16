@@ -3,6 +3,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <title>Guitar Fretboard Navigation - Thomas Mayer</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
@@ -21,12 +22,14 @@
   
         <script type="text/javascript" src="https://npmcdn.com/vexflow/releases/vexflow-debug.js"></script>
     <style>
-    .fretboard {
+    #fretboard {
         position: relative;
     }
-    .tuning, .fretnum {
-        position: absolute;
+    .fretnum {
+        position: relative;
+        top: -40px;
         margin: 0;
+        display: inline;
         padding: 0;
         font-family: Helvetica;
         text-transform: uppercase;
@@ -37,6 +40,17 @@
     }
     .fretnum {
         font-size: 15px;
+    }
+
+    .fretnumbers {
+        position: relative;
+        display: inline;
+        top: -40px;
+        //margin-left: 48px;
+        width: 30px;
+        padding: 0;
+        font-family: Helvetica;
+        text-transform: uppercase;
     }
 
     .hidden {
@@ -50,6 +64,13 @@
 </head>
 <body>
 
+    <div style="margin-left: 40px;">
+        <div>
+            <h2>Guitar Fretboard Navigation</h2>
+            <h4>An interactive visualization</h4>
+            <p>If you hover over the notes on the stave or fretboard, you see the corresponding notes.</p>
+        </div>
+    </div>
     <div>
       <div id="fretboard">
       </div>
@@ -63,10 +84,7 @@
         <div id="boo2">
         </div>
     </div>
-    <div style="display: none; margin-left: 30px; width: 100%;">
-        <div id="text">
-        </div>
-    </div>
+
     
   </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.1.1/d3.js"></script>
