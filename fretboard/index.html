@@ -38,6 +38,27 @@
         display: None;
     }
 
+    #bead, #gcf {
+        border: thin solid black;
+        border-radius: 5px;
+        padding: 3px;
+        background-color: lightgray;
+    }
+
+    #enote {
+        border-radius: 50%;
+        border: none;
+        padding: 3px;
+        padding-left: 7px;
+        padding-right: 7px;
+        background-color: steelblue;
+        color: white;
+
+    }
+
+    p {
+        padding-right: 20px;
+    }
 
     </style>
 
@@ -49,8 +70,17 @@
         <div>
             <h2>Guitar Fretboard Navigation</h2>
             <h4>An interactive visualization</h4>
-            <p>Hover over the notes on the stave or fretboard. Check out the vertical <span id="bead">BEAD</span> 
-                and <span id="gcf">GCF</span> patterns!</p>
+            <p>Hover over the notes on the stave or fretboard to explore the note family shapes
+                as well as their positions on the stave. <br> 
+                If you take the <span id="enote">E</span> note as an example, you can see the
+                triangular pattern (constituting half of the E major bar chord) ranging from the 0th
+                to the 3rd fret.
+
+            </p>
+                
+            <p>Check out the vertical <span id="bead">BEAD</span> 
+                and <span id="gcf">GCF</span> patterns that help you memorize the note positions on the same
+            fret (except for the jump from the G to the B string) across the strings. </p>
         </div>
     </div>
     <div>
@@ -58,7 +88,7 @@
       </div>
     </div>
     
-    <div style="display: block; margin-top: -18px;">
+    <div style="display: block; margin-top: -25px;">
         <div id="boo">
         </div>
     </div>

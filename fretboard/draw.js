@@ -555,3 +555,13 @@ d3.select("#gcf")
       d3.selectAll(".note").classed('hidden', false);
 })
 .style('cursor', 'pointer');
+
+d3.select("#enote")
+.on("mouseover", function(){
+      d3.selectAll(".note").classed('hidden', true);
+      d3.selectAll(".e").classed('hidden', false);
+})
+.on("mouseout", function(){
+      d3.selectAll(".note").classed('hidden', false);
+})
+.style('cursor', 'pointer');
