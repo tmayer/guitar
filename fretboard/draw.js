@@ -237,7 +237,8 @@ var Fretboard = function(config) {
         strings: config.strings || 6,
         tuning: config.tuning || Tunings.E_4ths,
         fretWidth: config.fretWidth || 60,
-        fretHeight: config.fretHeight || 24
+        fretHeight: config.fretHeight || 24,
+        notesWidth: config.notesWidth || 500
     };
 
     instance.fretsWithDots = function () {
@@ -302,18 +303,6 @@ var Fretboard = function(config) {
                 .attr("y", function(d) { return 170; })
                 .text(j);
 
-            /*
-            d3.select("#fretnumbers")
-                .append("p")
-                .attr("class", "fretnumbers")
-                //.style("top", (instance.fretboardHeight() + instance.YMARGIN() + 18) + "px")
-                .style("left", function(){
-                    let offset = 20; //j < 10 ? 15 : 30;
-                    //if(j == 0){ offset = 0.35; }
-                    //return 20 + "px"; // + j*50 - offset + "px"; //x - (j) + "px";
-                })
-                .text(function(){ return j == 0 ? "" : j; })
-                ;*/
         }
     }
 
@@ -330,22 +319,6 @@ var Fretboard = function(config) {
                 .attr("stroke-width", 1)
                 ;
         }
-        /*
-        var placeTuning = function(d, i) {
-            return (instance.strings - i) * instance.fretHeight - 5 + "px";
-        };
-        d3.select("#" + id)
-            .selectAll(".tuning")
-            .data(instance.tuning.slice(0, instance.strings))
-            .style("top", placeTuning)
-            .text(verbatim)
-            .enter()
-            .append("p")
-            .attr("class", "tuning")
-            .style("top", placeTuning)
-            .text(verbatim)
-            ;
-        */
     };
 
 
@@ -426,9 +399,7 @@ var Fretboard = function(config) {
                           d3.select(this).text(pos);
                       })
                       ;
-                      var width = window.innerWidth;
-                      width = width > 1600 ? 1600 : width;
-                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]], width, instance.frets);
+                    renderNotes([[this.classList[1], parseInt(this.classList[2])+1]], instance.notesWidth, instance.frets);
                 })
                 .on("mouseout", function(d) {
                     d3.selectAll(".note")
@@ -437,9 +408,7 @@ var Fretboard = function(config) {
                         let note = this.classList[1];
                         d3.select(this).text(note.toUpperCase());
                       });
-                      var width = window.innerWidth;
-                      width = width > 1600 ? 1600 : width;
-                      renderNotes([], width, instance.frets);
+                      renderNotes([], instance.notesWidth, instance.frets);
                 })
                 .attr("cursor", "pointer")
                 ;
