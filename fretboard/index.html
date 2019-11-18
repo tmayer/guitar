@@ -3,7 +3,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <title>Guitar Fretboard Navigation - Thomas Mayer</title>
+    <title>Guitar Fretboard Explorer - Thomas Mayer</title>
     <meta name="viewport" content="width=device-width">
    
     <script src="inc/d3.v4.min.js"></script>  
@@ -38,7 +38,7 @@
         display: None;
     }
 
-    #bead, #gcf {
+    #bead, #gcf, #scale1, #scale2, #scale3, #scale4, #scale5 {
         border: thin solid black;
         border-radius: 5px;
         padding: 3px;
@@ -68,8 +68,8 @@
 
     <div style="margin-left: 40px;">
         <div>
-            <h2>Guitar Fretboard Navigation</h2>
-            <h4>An interactive visualization</h4>
+            <h2>Guitar Fretboard Explorer</h2>
+            <h3>An interactive visualization</h3>
             <p>Hover over the notes on the stave or fretboard to explore the note family shapes
                 as well as their positions on the stave. <br> 
                 If you take the <span id="enote">E</span> note as an example, you can see the
@@ -81,6 +81,11 @@
             <p>Check out the vertical <span id="bead">BEAD</span> 
                 and <span id="gcf">GCF</span> patterns that help you memorize the note positions on the same
             fret (except for the jump from the G to the B string) across the strings. </p>
+
+            <p>
+                Filter for C scales: <span id="scale1">1st</span> <span id="scale2">2nd</span> 
+                <span id="scale3">3rd</span> <span id="scale4">4th</span> <span id="scale5">5th</span>  
+            </p>
         </div>
     </div>
     <div>
@@ -88,12 +93,8 @@
       </div>
     </div>
     
-    <div style="display: block; margin-top: -25px; margin-left: -10px;">
+    <div style="display: block; margin-left: -10px;">
         <div id="boo">
-        </div>
-    </div>
-    <div style="display: block;">
-        <div id="boo2">
         </div>
     </div>
 

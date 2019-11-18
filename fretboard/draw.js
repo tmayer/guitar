@@ -65,6 +65,14 @@ var notesPerString = {
     "1:c6": 20, "1:d6": 22, "1:e6": 24
 };
 
+var notesPerRange = {
+    "e2": 1, "f2": 1, "g2": 1,
+    "a2": 1, "b2": 1, "c3": 2, "d3": 2, "e3": 2, "f3": 2, "g3": 2,
+    "a3": 2, "b3": 2, "c4": 3, "d4": 3, "e4": 3, "f4": 3, "g4": 3,
+    "a4": 3, "b4": 3, "c5": 4, "d5": 4, "e5": 4, "f5": 4, "g5": 4,
+    "a5": 4, "b5": 4, "c6": 5, "d6": 5, "e6": 5
+}
+
 var Scales = {
     // scales
     lydian: "c d e f# g a b",
@@ -134,6 +142,9 @@ function renderNotes(note_s, width, frets){
 
     // Create an SVG renderer and attach it to the DIV element named "boo".
     d3.select("#boo").selectAll("*").remove();
+    d3.select("#boo").style("margin-top", function(){
+        return "-" + (360/frets) + "px";
+    });
     var div = document.getElementById("boo");
     var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
     
@@ -459,7 +470,8 @@ var Fretboard = function(config) {
                     var pattern = 'bead';
                     if(note[0] == 'g' || note[0] == 'c' || note[0] == 'f'){ pattern = 'gcf'; }
                     return "note " + note.charAt(0) + " " + note[1] + " " + 
-                           note.charAt(0) + note.charAt(1) + " " + pattern + " fret" + posFret;
+                           note.charAt(0) + note.charAt(1) + " " + pattern + " fret" + posFret
+                           + " scale" + notesPerRange[note];
                 })
                 .attr("stroke-width", 1)
                 // 0.75 is the offset into the fret (higher is closest to fret)
@@ -496,7 +508,8 @@ var Fretboard = function(config) {
                     var pattern = 'bead';
                     if(note[0] == 'g' || note[0] == 'c' || note[0] == 'f'){ pattern = 'gcf'; }
                     return "note " + note.charAt(0) + " " + note[1] + " " + 
-                           note.charAt(0) + note.charAt(1) + " " + pattern + " fret" + posFret;
+                           note.charAt(0) + note.charAt(1) + " " + pattern + " fret" + posFret
+                           + " scale" + notesPerRange[note];
                 })
                 .attr("stroke-width", 1)
                 // 0.75 is the offset into the fret (higher is closest to fret)
@@ -592,7 +605,6 @@ var Fretboard = function(config) {
     
     d3.select("#bead")
     .on("mouseover", function(){
-        console.log(instance.fretWidth, instance.frets);
         d3.selectAll(".note").classed('hidden', true);
         d3.selectAll(".bead").classed('hidden', false);
         renderNotes(beadNotes, instance.notesWidth, instance.frets);
@@ -619,9 +631,71 @@ var Fretboard = function(config) {
     .on("mouseover", function(){
           d3.selectAll(".note").classed('hidden', true);
           d3.selectAll(".e").classed('hidden', false);
+          renderNotes([['e', 3], ['e', 4], ['e', 5], ['e', 6], ['e', 7]], instance.notesWidth, instance.frets);
     })
     .on("mouseout", function(){
           d3.selectAll(".note").classed('hidden', false);
+          renderNotes([], instance.notesWidth, instance.frets);
+    })
+    .style('cursor', 'pointer');
+
+    d3.select("#scale1")
+    .on("mouseover", function(){
+        d3.selectAll(".note").classed('hidden', true);
+        d3.selectAll(".scale1").classed('hidden', false);
+        renderNotes([['e', 3], ['f', 3], ['g', 3], ['a', 3], ['b', 3]], instance.notesWidth, instance.frets);
+    })
+    .on("mouseout", function(){
+        d3.selectAll(".note").classed('hidden', false);
+        renderNotes([], instance.notesWidth, instance.frets);
+    })
+    .style('cursor', 'pointer');
+
+    d3.select("#scale2")
+    .on("mouseover", function(){
+        d3.selectAll(".note").classed('hidden', true);
+        d3.selectAll(".scale2").classed('hidden', false);
+        renderNotes([['c', 4], ['d', 4], ['e', 4], ['f', 4], ['g', 4], ['a', 4], ['b', 4]], instance.notesWidth, instance.frets);
+    })
+    .on("mouseout", function(){
+        d3.selectAll(".note").classed('hidden', false);
+        renderNotes([], instance.notesWidth, instance.frets);
+    })
+    .style('cursor', 'pointer');
+
+    d3.select("#scale3")
+    .on("mouseover", function(){
+        d3.selectAll(".note").classed('hidden', true);
+        d3.selectAll(".scale3").classed('hidden', false);
+        renderNotes([['c', 5], ['d', 5], ['e', 5], ['f', 5], ['g', 5], ['a', 5], ['b', 5]], instance.notesWidth, instance.frets);
+    })
+    .on("mouseout", function(){
+        d3.selectAll(".note").classed('hidden', false);
+        renderNotes([], instance.notesWidth, instance.frets);
+    })
+    .style('cursor', 'pointer');
+
+    d3.select("#scale4")
+    .on("mouseover", function(){
+        d3.selectAll(".note").classed('hidden', true);
+        d3.selectAll(".scale4").classed('hidden', false);
+        renderNotes([['c', 6], ['d', 6], ['e', 6]], instance.notesWidth, instance.frets);
+    })
+    .on("mouseout", function(){
+        d3.selectAll(".note").classed('hidden', false);
+        renderNotes([], instance.notesWidth, instance.frets);
+    })
+    .style('cursor', 'pointer');
+
+    d3.select("#scale5")
+    .on("mouseover", function(){
+        d3.selectAll(".note").classed('hidden', true);
+        d3.selectAll(".scale5").classed('hidden', false);
+        renderNotes([['a', 6], ['b', 6], ['c', 7], ['d', 7], ['e', 7]], instance.notesWidth, instance.frets);
+    })
+    .on("mouseout", function(){
+        d3.selectAll(".note").classed('hidden', false);
+        renderNotes([], instance.notesWidth, instance.frets);
     })
     .style('cursor', 'pointer');
 
