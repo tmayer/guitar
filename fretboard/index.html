@@ -79,7 +79,6 @@
     <div style="margin-left: 40px;">
         <div>
             <h2>Guitar Fretboard Explorer</h2>
-            <h3>An interactive visualization</h3>
             <p>Hover over the notes on the stave or fretboard to explore the note family shapes
                 as well as their positions on the stave. <br> 
                 If you take the <span id="enote">E</span> note as an example, you can see the
@@ -135,7 +134,6 @@ plotFretNotes = function(width){
     var height = width / 3.236;
 
     var fretWidth = 60;
-    $("#text").html(width);
     var frets = Math.ceil(width/fretWidth) > 26 ? 24 : Math.ceil(width/fretWidth) - 2;
     var fretHeight = fretWidth/2.6;
     
