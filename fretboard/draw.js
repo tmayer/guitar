@@ -679,7 +679,7 @@ var Fretboard = function(config) {
     .on("mouseover", function(){
         d3.selectAll(".note").classed('hidden', true);
         d3.selectAll(".scale4").classed('hidden', false);
-        renderNotes([['c', 6], ['d', 6], ['e', 6]], instance.notesWidth, instance.frets);
+        renderNotes([['c', 6], ['d', 6], ['e', 6], ['f', 6], ['g', 6], ['a', 6], ['b', 6]], instance.notesWidth, instance.frets);
     })
     .on("mouseout", function(){
         d3.selectAll(".note").classed('hidden', false);
@@ -691,7 +691,7 @@ var Fretboard = function(config) {
     .on("mouseover", function(){
         d3.selectAll(".note").classed('hidden', true);
         d3.selectAll(".scale5").classed('hidden', false);
-        renderNotes([['a', 6], ['b', 6], ['c', 7], ['d', 7], ['e', 7]], instance.notesWidth, instance.frets);
+        renderNotes([['c', 7], ['d', 7], ['e', 7]], instance.notesWidth, instance.frets);
     })
     .on("mouseout", function(){
         d3.selectAll(".note").classed('hidden', false);
